@@ -2,7 +2,7 @@
 
 ## Objectif
 
-Implémentation d'une base de données NoSQL distribuée avec Apache Cassandra (v4.x) pour analyser un dataset de 16 000+ ventes de jeux vidéo. Application des principes Query-First, automatisation ETL en Python, et validation de la haute disponibilité du cluster.
+Dand le cadre de mon apprentissage du Data Enginneering j'ai voulu tester et met    n œuvre une base de données NoSQL distribuée à l'aide d'Apache Cassandra afin d'analyser les données relatives aux ventes de jeux vidéo. Le travail se concentre sur les principes de conception Query-First, la migration des données en utilisant Python et les tests de haute disponibilité des clusters pour voir et comprendre comment les noeuds réagissent en cas de défaillance.
 
 ## Architecture & Configuration
 
