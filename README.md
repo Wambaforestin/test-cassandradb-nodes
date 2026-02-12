@@ -1,10 +1,10 @@
 # Analyse des ventes de jeux vidéo avec Apache Cassandra
 
-## 🎯 Objectif
+## Objectif
 
 Implémentation d'une base de données NoSQL distribuée avec Apache Cassandra (v4.x) pour analyser un dataset de 16 000+ ventes de jeux vidéo. Application des principes Query-First, automatisation ETL en Python, et validation de la haute disponibilité du cluster.
 
-## 🏗️ Architecture & Configuration
+## Architecture & Configuration
 
 ### Lancement du cluster (3 nœuds)
 
@@ -24,16 +24,22 @@ COPY gamesales.game_sales_raw (rank, name, platform, year, genre, publisher, na_
 FROM '/tmp/vgsales.csv' WITH HEADER = TRUE;
 ```
 
-## 🚀 Migration ETL (Python)
+## Migration des données (Python)
 
 ```bash
+# rassure-toi d'avoir Python 3.12+ et uv installé
+# si tu réutilises un environnement virtuel, active-le d'abord
+uv sync 
+
+# si tu crée un nouvel environnement virtuel, utilise :
+uv init
 uv add "cassandra-driver>=3.29.1" pyasyncore
 uv run migration.py
 ```
 
 **Note** : Shim asyncore intégré pour compatibilité Python 3.12+
 
-## 📊 Modélisation des données
+##  Modélisation des données orientée requêtes
 
 | Table | Partition Key | Clustering Key | Objectif |
 |-------|---|---|---|
