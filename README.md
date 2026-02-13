@@ -15,14 +15,46 @@ docker exec -it cassandra-node1 nodetool status
 
 ### Import des données
 
-```bash
-# Copie du dataset
-docker cp vgsales.csv cassandra-node1:/tmp/vgsales.csv
-
-# Chargement via CQLSH
-COPY gamesales.game_sales_raw (rank, name, platform, year, genre, publisher, na_sales, eu_sales, jp_sales, other_sales, global_sales) 
-FROM '/tmp/vgsales.csv' WITH HEADER = TRUE;
+```sql
+USE gamesales;
 ```
+
+#### Étape 1 : Place le fichier
+Mets le fichier `video-game-sales.csv` dans ton dossier `projet_cassandra`.
+
+#### Étape 2 : Copie le fichier DANS le conteneur
+Tu dois utiliser la commande `docker cp` pour envoyer le fichier de ton Windows vers le conteneur `cassandra-node1`.
+
+Ouvre ton terminal (PowerShell) dans le dossier du projet et lance cette commande :
+
+```powershell
+docker cp video-game-sales.csv cassandra-node1:/tmp/video-game-sales.csv
+```
+
+**Explication de la commande :**
+- `docker cp` : Copier un fichier
+- `video-game-sales.csv` : Le fichier source (sur ton Windows)
+- `cassandra-node1:/tmp/...` : La destination (dans le conteneur, dossier temporaire `/tmp`)
+
+#### Étape 3 : Vérifie que le fichier est bien arrivé
+Pour être sûr que le fichier est bien accessible par Cassandra, lance cette petite commande de vérification :
+
+```powershell
+docker exec cassandra-node1 ls -l /tmp/video-game-sales.csv
+```
+
+Si tu vois le nom du fichier s'afficher avec des droits (ex: `-rwxr-xr-x ...`), c'est gagné ! ✅
+
+#### Étape 4 : Import dans Cassandra (commande COPY)
+Quand tu lanceras la commande d'import COPY dans cqlsh, tu devras indiquer le chemin interne du conteneur :
+
+```sql
+COPY gamesales.game_sales_raw (Rank, Name, Platform, Year, Genre, Publisher, NA_Sales, EU_Sales, JP_Sales, Other_Sales, Global_Sales) 
+FROM '/tmp/video-game-sales.csv' 
+WITH DELIMITER = ',' AND HEADER = TRUE;
+```
+
+**Note** : Utilise bien `/tmp/video-game-sales.csv` (chemin du conteneur) et non un chemin Windows.
 
 ## Migration des données (Python)
 
