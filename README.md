@@ -69,7 +69,11 @@ uv add "cassandra-driver>=3.29.1" pyasyncore
 uv run migration.py
 ```
 
-**Note** : Shim asyncore intégré pour compatibilité Python 3.12+
+> **⚠️ Problèmes rencontrés :**
+> 
+> Incompatibilité entre Python 3.12 et le driver Cassandra (suppression du module `asyncore`).
+> 
+> **Solution :** Installation du paquet `pyasyncore` et ajout d'un "shim" en début de script (`sys.modules["asyncore"] = pyasyncore`) pour restaurer la compatibilité.
 
 ##  Modélisation des données orientée requêtes
 
